@@ -1,0 +1,11 @@
+{%extends "base.html"%}
+
+{%block content%}
+    <h1>welcome to Food Trucks Locator!!</h1>
+
+    {%if user.is_authenticated %}
+    <a href ="{% url "index"%}" class = "btn btn-primary">Check out Food trucks nearby</a>
+    {%else%}
+    <a href ="{% url "login"%}" class = "btn btn-primary">Check out Food trucks nearby</a>
+    {%endif%}
+{%endblock%}

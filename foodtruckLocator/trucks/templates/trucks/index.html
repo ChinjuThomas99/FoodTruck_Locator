@@ -1,0 +1,48 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<html>
+<head>
+    <title>Food Truck Locator</title>
+    <script>
+        function fetchFoodTrucks() {
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+            fetch(`api/foodtrucks/?latitude=${latitude}&longitude=${longitude}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Nearby Food Trucks</h2>';
+                    data.forEach(truck => {
+                        output += `<div style="margin-bottom: 20px;">
+                            <p style="font-size: 18px; font-weight: bold; color: #333;">${truck.name}</p>
+                            <p style="font-size: 14px; color: #555;">${truck.description}</p>
+                            <p style="font-size: 14px; color: #555;">${truck.address}</p>
+                            
+                        </div>`;
+                    });
+                    document.getElementById('results').innerHTML = output;
+                });
+        }
+    </script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <h1 style="text-align: center; margin-top: 20px; color: #333;">Find Food Trucks Nearby</h1>
+    <form id="search-form" style="text-align: center; margin-top: 20px;">
+        <label for="latitude" style="font-size: 16px;">Latitude:</label>
+        <input type="text" id="latitude" name="latitude" style="margin-right: 10px; padding: 5px;">
+        <label for="longitude" style="font-size: 16px;">Longitude:</label>
+        <input type="text" id="longitude" name="longitude" style="margin-right: 10px; padding: 5px;">
+        <button type="submit" style="padding: 5px 10px; font-size: 16px;">Search</button>
+
+    </form>
+    <div id="results" style="padding: 20px; max-width: 800px; margin: 20px auto; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            fetchFoodTrucks();
+        });
+    </script>
+</body>
+</html>
+
+{%endblock%}
